@@ -44,6 +44,8 @@ export interface PersonalDetail {
   personal_contact_number: string
   personal_email: string
   bank_account_number: string
+  created_at: string
+  updated_at: string
 }
 
 export interface WorkDetail {
@@ -62,6 +64,8 @@ export interface WorkDetail {
   exit_date: string | null
   company_email: string | null
   google_id: string | null
+  created_at: string
+  updated_at: string
 }
 
 export interface AssetProvisioning {
@@ -75,6 +79,8 @@ export interface AssetProvisioning {
   access_card_request: boolean
   office_keys: string | null
   others: string | null
+  created_at: string
+  updated_at: string
 }
 
 export interface AssetInventory {
@@ -104,6 +110,7 @@ export interface AssetInventory {
   maintenance_status: string
   last_maintenance_date: string | null
   created_at: string
+  updated_at: string
 }
 
 export interface AssetAssignment {
@@ -113,6 +120,8 @@ export interface AssetAssignment {
   assigned_date: string
   returned_date: string | null
   status: 'assigned' | 'returned'
+  created_at: string
+  updated_at: string
   asset?: AssetInventory
 }
 
@@ -129,6 +138,7 @@ export interface Aarf {
   it_manager_remarks: string | null
   it_notes: string | null
   created_at: string
+  updated_at: string
 }
 
 export interface Employee {
@@ -159,6 +169,17 @@ export interface Employee {
   employment_type: string | null
   work_role: string | null
   google_id: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface Offboarding {
+  id: number
+  onboarding_id: number
+  exit_date: string
+  reason: string | null
+  remarks: string | null
+  created_at: string
 }
 
 // ── Joined types for views ────────────────────────────────────────────────────
@@ -171,18 +192,21 @@ export interface OnboardingFull {
   aarf: Aarf | null
 }
 
+type Relationships = Record<string, never>
+
 export type Database = {
   public: {
     Tables: {
-      profiles: { Row: Profile; Insert: Omit<Profile,'created_at'|'updated_at'>; Update: Partial<Profile> }
-      onboardings: { Row: Onboarding; Insert: Omit<Onboarding,'id'|'created_at'|'updated_at'>; Update: Partial<Onboarding> }
-      personal_details: { Row: PersonalDetail; Insert: Omit<PersonalDetail,'id'>; Update: Partial<PersonalDetail> }
-      work_details: { Row: WorkDetail; Insert: Omit<WorkDetail,'id'>; Update: Partial<WorkDetail> }
-      asset_provisionings: { Row: AssetProvisioning; Insert: Omit<AssetProvisioning,'id'>; Update: Partial<AssetProvisioning> }
-      asset_inventories: { Row: AssetInventory; Insert: Omit<AssetInventory,'id'|'created_at'>; Update: Partial<AssetInventory> }
-      asset_assignments: { Row: AssetAssignment; Insert: Omit<AssetAssignment,'id'>; Update: Partial<AssetAssignment> }
-      aarfs: { Row: Aarf; Insert: Omit<Aarf,'id'|'created_at'>; Update: Partial<Aarf> }
-      employees: { Row: Employee; Insert: Omit<Employee,'id'>; Update: Partial<Employee> }
+      profiles: { Row: Profile; Insert: Omit<Profile,'created_at'|'updated_at'>; Update: Partial<Profile>; Relationships: Relationships }
+      onboardings: { Row: Onboarding; Insert: Omit<Onboarding,'id'|'created_at'|'updated_at'>; Update: Partial<Onboarding>; Relationships: Relationships }
+      personal_details: { Row: PersonalDetail; Insert: Omit<PersonalDetail,'id'>; Update: Partial<PersonalDetail>; Relationships: Relationships }
+      work_details: { Row: WorkDetail; Insert: Omit<WorkDetail,'id'>; Update: Partial<WorkDetail>; Relationships: Relationships }
+      asset_provisionings: { Row: AssetProvisioning; Insert: Omit<AssetProvisioning,'id'>; Update: Partial<AssetProvisioning>; Relationships: Relationships }
+      asset_inventories: { Row: AssetInventory; Insert: Omit<AssetInventory,'id'|'created_at'>; Update: Partial<AssetInventory>; Relationships: Relationships }
+      asset_assignments: { Row: AssetAssignment; Insert: Omit<AssetAssignment,'id'>; Update: Partial<AssetAssignment>; Relationships: Relationships }
+      aarfs: { Row: Aarf; Insert: Omit<Aarf,'id'|'created_at'>; Update: Partial<Aarf>; Relationships: Relationships }
+      employees: { Row: Employee; Insert: Omit<Employee,'id'>; Update: Partial<Employee>; Relationships: Relationships }
+      offboardings: { Row: Offboarding; Insert: Omit<Offboarding,'id'|'created_at'>; Update: Partial<Offboarding>; Relationships: Relationships }
     }
   }
 }
